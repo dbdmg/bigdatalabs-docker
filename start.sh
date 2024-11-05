@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 shopt -s dotglob
 
+if ! [ -d "$VSCODE_SRV_DIR/workspace" ]; then
+    mkdir "$VSCODE_SRV_DIR/workspace"
+fi
+
 exec \
 code-server \
 --disable-update-check \

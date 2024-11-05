@@ -1,10 +1,11 @@
 FROM ubuntu:22.04
 
 # Define user and user id default arguments
-ARG USER=bigdatalabs
+ARG USER=student
 ARG UID=1010
 ARG VSCODE_SRV_DIR=/vscode
 ENV VSCODE_SRV_DIR=${VSCODE_SRV_DIR}
+ENV HOSTNAME=bigdatalabs
 ENV SERVICE_URL=https://open-vsx.org/vscode/gallery
 ENV ITEM_URL=https://open-vsx.org/vscode/item
 
@@ -32,6 +33,7 @@ RUN apt-get update; apt-get install -y java-1.8.0-amazon-corretto-jdk
 RUN wget https://dlcdn.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz
 RUN tar -xvf apache-maven-3.9.9-bin.tar.gz
 RUN mv apache-maven-3.9.9 /opt/
+RUN rm apache-maven-3.9.9-bin.tar.gz
 
 ENV PATH=${MAVEN_HOME}/bin:${PATH}
 
@@ -46,7 +48,7 @@ RUN useradd -ms /bin/bash -u ${UID} $USER && \
     usermod -d ${VSCODE_SRV_DIR} $USER && \
     mkdir -p ${VSCODE_SRV_DIR}/extensions && \
     mkdir -p ${VSCODE_SRV_DIR}/data && \
-    mkdir -p ${VSCODE_SRV_DIR}/workspace && \
+    # mkdir -p ${VSCODE_SRV_DIR}/workspace && \
     cp /root/.bashrc ${VSCODE_SRV_DIR}/.bashrc && \
     cp /root/.profile ${VSCODE_SRV_DIR}/.profile && \
     echo 'alias code=code-server' >> ${VSCODE_SRV_DIR}/.bashrc && \
@@ -62,7 +64,7 @@ RUN code-server --extensions-dir ${VSCODE_SRV_DIR}/extensions \
     --install-extension ms-toolsai.jupyter \
     --install-extension tmp/ms-python.vscode-pylance-2024.4.1.vsix \
     --install-extension vscjava.vscode-java-pack
-
+# clean and remove pylance extension
 RUN rm /tmp/ms-python.vscode-pylance-2024.4.1.vsix
 
 RUN chown -R ${USER}:${USER} ${VSCODE_SRV_DIR}
