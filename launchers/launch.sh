@@ -21,4 +21,4 @@ fi
 echo -e "\e[1;31mLaunching the service... open this URL on the browser $URL\e[0m"
 echo -e "\e[1;31mYou can stop the container either with CTRL+C (CMD+C on mac) or with \"docker kill bdlabs\"\e[0m"
 echo -e "\e[1;31mYou can check if the container is still running with \"docker ps -a\"\e[0m"
-docker run -e BIGDATA_LISTEN_PORT=8001 -it --rm -p 8001:8001 -v $1:/vscode/workspace --name bdlabs bigdatalabs
+docker run -e BIGDATA_LISTEN_PORT=8001 -it --rm -p 8001:8001 -v $1:/vscode/workspace --name bdlabs lccol/bigdatalabs:v1.0.0
